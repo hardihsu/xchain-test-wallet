@@ -1,6 +1,6 @@
 /* eslint-disable no-constant-binary-expression */
 import React, { useEffect, useState } from "react";
-import { getBalance, sendTransaction, mine, getChain, getPendingTransactions } from "./api";
+import { getBalance, sendTransaction, mine, getChain, getPendingTransactions, getFaucet } from "./api";
 import * as CryptoJS from "crypto-js";
 import { ec as EC } from "elliptic";
 import { Button } from "./components/ui/button";
@@ -114,9 +114,20 @@ const App: React.FC = () => {
     fetchPendingTxs();
   }
 
+  async function handleFaucet() {
+    if (!wallet) return;
+    await getFaucet(wallet.address);
+    fetchBalance(wallet.address);
+    fetchChain();
+    fetchPendingTxs();
+  }
+
   return (
     <div className="p-6 space-y-6">
       <h1 className="text-2xl font-bold">XChain Wallet</h1>
+      {Boolean(wallet) &&
+        <Button className="float-right -mt-12" onClick={handleFaucet}>给点</Button>
+      }
 
       {!wallet ? (
         <Card>

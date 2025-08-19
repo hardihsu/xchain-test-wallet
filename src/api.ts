@@ -32,6 +32,16 @@ export async function getChain() {
   return res.json();
 }
 
+// 水龙头
+export async function getFaucet(address: string) {
+  const res = await fetch(`${API_URL}/faucet`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ address }),
+  });
+  return res.json();
+}
+
 // 获取交易池
 export async function getPendingTransactions() {
   // const res = await fetch(`${API_URL}/pending`);
